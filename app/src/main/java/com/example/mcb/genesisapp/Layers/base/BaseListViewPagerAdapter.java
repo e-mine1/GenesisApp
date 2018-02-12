@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 /**
+ * Adapter for the Viewpager in FBaseList
  * Created by mcb on 14.02.16.
  */
 public class BaseListViewPagerAdapter extends FragmentPagerAdapter {

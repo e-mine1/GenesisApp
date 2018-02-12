@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Base Layer containing the viewpager containing the Creator, Wallet, Obtainer and Projects Fragment
  * A simple {@link Fragment} subclass.
  */
 public class FBaseList extends Fragment implements StateActivity.StateListener {

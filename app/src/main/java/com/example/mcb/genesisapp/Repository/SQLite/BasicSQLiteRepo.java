@@ -8,14 +8,15 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Map;
 
 import Features.IFeature;
 import Features.IOperation;
 import Features.IUnderlying;
+import Features.operations.IOperationProof;
 import Features.operations.IProof;
+import Features.operations.actions.IAction;
 import Features.properties.IProperty;
 import Features.properties.basic.DecimalsProperty;
 import Features.properties.basic.GeneralSupplyProperty;
@@ -27,6 +28,7 @@ import Token.basic.BasicToken;
 import Utilities.IAddress;
 
 /**
+ * Implementation of IRepository. Connects to a SQLite Database.
  * Created by mcb on 11.02.18.
  */
 
@@ -162,6 +164,11 @@ public class BasicSQLiteRepo implements IRepository<BasicToken>, SQLiteRepo {
     }
 
     @Override
+    public Collection<IFeature> getFeatures(BasicToken basicToken) {
+        return null;
+    }
+
+    @Override
     public Collection<IOperation> getOperations(BasicToken basicToken) {
         return new ArrayList<>();
     }
@@ -214,8 +221,22 @@ public class BasicSQLiteRepo implements IRepository<BasicToken>, SQLiteRepo {
         return null;
     }
 
+    //Todo: create Transaction Table
+    //Todo: create value table
+    private boolean transfer(BasicToken basicToken, IAddress iAddress, IAddress iAddress1, int i, IProof iProof) {
+        return false;
+    }
+
+    /*
+        Action BAsed functionalities
+     */
     @Override
-    public boolean transfer(BasicToken basicToken, IAddress iAddress, IAddress iAddress1, int i, IProof iProof) {
+    public boolean store(IAction iAction, IOperationProof iOperationProof) {
+        return false;
+    }
+
+    @Override
+    public boolean contains(IAction iAction) {
         return false;
     }
 }

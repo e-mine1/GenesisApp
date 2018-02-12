@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.example.mcb.genesisapp.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment holding the Obtainer view
  */
 public class ObtainerFragment extends Fragment {
 

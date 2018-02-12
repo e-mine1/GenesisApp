@@ -22,7 +22,7 @@ import Repository.IRepository;
 import Token.IToken;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment holding the wallet.
  */
 public class FWallet extends Fragment implements StateCallback.StateListener {
 

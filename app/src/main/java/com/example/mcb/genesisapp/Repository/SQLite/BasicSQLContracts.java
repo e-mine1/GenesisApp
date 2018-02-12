@@ -2,6 +2,7 @@ package com.example.mcb.genesisapp.Repository.SQLite;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
+import android.renderscript.Sampler;
 
 /**
  * Created by mcb on 11.02.18.
@@ -24,23 +25,135 @@ public class BasicSQLContracts {
     private static final String INTEGER_PRIMARY_KEY = " INTEGER PRIMARY KEY ";
     private static final String INTEGER = " INTEGER ";
     private static final String DEFAULT_CURRENT_TIME = " DEFAULT CURRENT_TIMESTAMP ";
+    private static final String CREATE_INDEX_IF_NOT_EXISTENT=" CREATE INDEX IF NOT EXISTS ";
 
     public static void createTables(SQLiteDatabase db) {
         //   db.execSQL(PrimitiveAttributes.SQL_CREATE);
         db.execSQL(BasicTokenTable.SQL_CREATE);
+        db.execSQL(ValueTransactionTable.SQL_CREATE);
+        db.execSQL(AddressTokenValueTable.SQL_CREATE);
 
         // Create Indices
         db.execSQL(BasicTokenTable.CREATE_INDEX_NAME_COLUMN);
+        db.execSQL(ValueTransactionTable.CREATE_INDEX_TOKEN_ID);
+        db.execSQL(ValueTransactionTable.CREATE_INDEX_TOKEN_SENDER);
+        db.execSQL(ValueTransactionTable.CREATE_INDEX_TOKEN_RECEIVER);
+        db.execSQL(AddressTokenValueTable.CREATE_INDEX_TOKEN_ID);
     }
 
     public static void dropTables(SQLiteDatabase db) {
-
         //Drop Indices
         db.execSQL(DROP_INDEX_IF_EXISTS + BasicTokenTable.INDEX_NAME_NAME_COLUMN + SEMICOLON_SEP);
+        db.execSQL(DROP_INDEX_IF_EXISTS + ValueTransactionTable.INDEX_NAME_TOKEN_ID + SEMICOLON_SEP);
+        db.execSQL(DROP_INDEX_IF_EXISTS + ValueTransactionTable.INDEX_NAME_ADDRESS_SENDER + SEMICOLON_SEP);
+        db.execSQL(DROP_INDEX_IF_EXISTS + ValueTransactionTable.INDEX_NAME_ADDRESS_RECEIVER + SEMICOLON_SEP);
+        db.execSQL(DROP_INDEX_IF_EXISTS + AddressTokenValueTable.INDEX_NAME_TOKEN_ID + SEMICOLON_SEP);
         //DROP Tables
         db.execSQL(DROP_TABLE_IF_EXISTS + BasicTokenTable.TABLE_NAME + SEMICOLON_SEP);
+        db.execSQL(DROP_TABLE_IF_EXISTS + ValueTransactionTable.TABLE_NAME + SEMICOLON_SEP);
+        db.execSQL(DROP_TABLE_IF_EXISTS + AddressTokenValueTable.TABLE_NAME + SEMICOLON_SEP);
     }
 
+    public static abstract class AddressTokenValueTable implements BaseColumns{
+
+        public static final String TABLE_NAME = "AddressTokenValueTable";
+        public static final String COLUMN_NAME_TOKEN_ID="TokenID";
+        public static final String COLUMN_NAME_VALUE= "Value";
+        public static final String COLUMN_NAME_ADDRESS_CREATION_TIME="CreationTime";
+
+        public static final String INDEX_NAME_TOKEN_ID="indexTokenID";
+
+        public static final int id=0;
+        public static final int tokenId=1;
+        public static final int value=2;
+        public static final int creationTime=3;
+
+        // create statement
+        public static final String SQL_CREATE =
+                CREATE_TABLE_IF_NOT_EXISTS + TABLE_NAME + " (" +
+                        _ID + INTEGER_PRIMARY_KEY + NOT_NULL + COMMA_SEP +
+                        COLUMN_NAME_TOKEN_ID + INTEGER + NOT_NULL + COMMA_SEP +
+                        COLUMN_NAME_VALUE + INTEGER + NOT_NULL + COMMA_SEP +
+                        COLUMN_NAME_ADDRESS_CREATION_TIME + TEXT_TYPE + DEFAULT_CURRENT_TIME  +
+                        "FOREIGN KEY(" + COLUMN_NAME_TOKEN_ID + ") REFERENCES "
+                        + BasicTokenTable.TABLE_NAME + "(" + BasicTokenTable._ID + ")" +
+                        " );";
+
+        // all column names - handy for querries
+        public static String[] allColumns = {_ID, COLUMN_NAME_TOKEN_ID, COLUMN_NAME_VALUE,
+                COLUMN_NAME_ADDRESS_CREATION_TIME};
+
+        /*
+         * Create and destroy index
+         */
+        public static String CREATE_INDEX_TOKEN_ID = CREATE_INDEX_IF_NOT_EXISTENT+ INDEX_NAME_TOKEN_ID +" ON "
+                + TABLE_NAME + " ("+COLUMN_NAME_TOKEN_ID+" ASC )";
+    }
+
+    public static abstract class ValueTransactionTable implements BaseColumns{
+
+        public static final String TABLE_NAME = "ValueTransactionTable";
+        public static final String COLUMN_NAME_TOKEN_ID="TokenID";
+        public static final String COLUMN_NAME_ADDRESS_SENDER= "AddressSender";
+        public static final String COLUMN_NAME_ADDRESS_RECEIVER="AddressReceiver";
+        public static final String COLUMN_NAME_VALUE="Value";
+        public static final String COLUMN_NAME_TRANSACTION_TIME="TransactionTime";
+
+        public static final String INDEX_NAME_TOKEN_ID="indexTokenID";
+        public static final String INDEX_NAME_ADDRESS_SENDER="indexAnddressSender";
+        public static final String INDEX_NAME_ADDRESS_RECEIVER="indexAddressReceiver";
+
+        public static final int id=0;
+        public static final int tokenId=1;
+        public static final int addressSender=2;
+        public static final int addressReceiver=3;
+        public static final int value=4;
+        public static final int transactionTime=5;
+
+        // create statement
+        public static final String SQL_CREATE =
+                CREATE_TABLE_IF_NOT_EXISTS + TABLE_NAME + " (" +
+                        _ID + INTEGER_PRIMARY_KEY + NOT_NULL + COMMA_SEP +
+                        COLUMN_NAME_TOKEN_ID + INTEGER + NOT_NULL + COMMA_SEP +
+                        COLUMN_NAME_ADDRESS_SENDER + INTEGER + NOT_NULL + COMMA_SEP +
+                        COLUMN_NAME_ADDRESS_RECEIVER + INTEGER + NOT_NULL + COMMA_SEP +
+                        COLUMN_NAME_VALUE + INTEGER + NOT_NULL + COMMA_SEP +
+                        COLUMN_NAME_TRANSACTION_TIME + TEXT_TYPE + DEFAULT_CURRENT_TIME  +
+                        "FOREIGN KEY(" + COLUMN_NAME_TOKEN_ID + ") REFERENCES "
+                        + BasicTokenTable.TABLE_NAME + "(" + BasicTokenTable._ID + ")" +
+                        "FOREIGN KEY(" + COLUMN_NAME_ADDRESS_SENDER + ") REFERENCES "
+                        + AddressTokenValueTable.TABLE_NAME + "(" + AddressTokenValueTable._ID + ")" +
+                        "FOREIGN KEY(" + COLUMN_NAME_ADDRESS_RECEIVER + ") REFERENCES "
+                        + AddressTokenValueTable.TABLE_NAME + "(" + AddressTokenValueTable._ID + ")" +
+                        " );";
+
+        // all column names - handy for querries
+        public static String[] allColumns = {_ID, COLUMN_NAME_TOKEN_ID, COLUMN_NAME_ADDRESS_SENDER,
+                COLUMN_NAME_ADDRESS_RECEIVER, COLUMN_NAME_VALUE,
+                COLUMN_NAME_TRANSACTION_TIME};
+
+        /*
+         * Create and destroy index
+         */
+        public static String CREATE_INDEX_TOKEN_ID = CREATE_INDEX_IF_NOT_EXISTENT+ INDEX_NAME_TOKEN_ID +" ON "
+                + TABLE_NAME + " ("+COLUMN_NAME_TOKEN_ID+" ASC )";
+        public static String CREATE_INDEX_TOKEN_SENDER = CREATE_INDEX_IF_NOT_EXISTENT + INDEX_NAME_ADDRESS_SENDER + " ON "+
+                TABLE_NAME + " ( " +COLUMN_NAME_ADDRESS_SENDER + " ASC )";
+        public static String CREATE_INDEX_TOKEN_RECEIVER = CREATE_INDEX_IF_NOT_EXISTENT + INDEX_NAME_ADDRESS_RECEIVER + " ON "+
+                TABLE_NAME + " ( " +COLUMN_NAME_ADDRESS_RECEIVER + " ASC )";
+
+        public static String DROP_INDEX_TOKEN_ID = "DROP INDEX "+ INDEX_NAME_TOKEN_ID;
+        public static String DROP_INDEX_ADDRESS_SENDER = " DROP INDEX " + INDEX_NAME_ADDRESS_SENDER;
+        public static String DROP_INDEX_ADDRESS_RECEIVER = " DROP INDEX " + INDEX_NAME_ADDRESS_RECEIVER;
+
+
+
+    }
+
+
+    /**
+     * Table holding the basic Properties of a Token
+     */
     public static abstract class BasicTokenTable implements BaseColumns {
         public static final String TABLE_NAME = "BasicTokenTable";
         public static final String COLUMN_NAME_NAME = "Name";

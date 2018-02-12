@@ -35,7 +35,10 @@ import java.util.Stack;
 import Repository.IRepository;
 
 
-//State Activity - State Pattern (kind of)
+/**
+ * State Pattern. StateActivity holds state of the application.
+ *
+ */
 public class StateActivity extends AppCompatActivity implements StateCallback{
 
 
