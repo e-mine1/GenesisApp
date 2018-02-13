@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 import android.renderscript.Sampler;
 
 /**
- * Created by mcb on 11.02.18.
+ * Created bhy mcb on 11.02.18.
  */
 
 public class BasicSQLContracts {
@@ -30,15 +30,17 @@ public class BasicSQLContracts {
     public static void createTables(SQLiteDatabase db) {
         //   db.execSQL(PrimitiveAttributes.SQL_CREATE);
         db.execSQL(BasicTokenTable.SQL_CREATE);
-        db.execSQL(ValueTransactionTable.SQL_CREATE);
         db.execSQL(AddressTokenValueTable.SQL_CREATE);
+        db.execSQL(ValueTransactionTable.SQL_CREATE);
+
 
         // Create Indices
         db.execSQL(BasicTokenTable.CREATE_INDEX_NAME_COLUMN);
+        db.execSQL(AddressTokenValueTable.CREATE_INDEX_TOKEN_ID);
         db.execSQL(ValueTransactionTable.CREATE_INDEX_TOKEN_ID);
         db.execSQL(ValueTransactionTable.CREATE_INDEX_TOKEN_SENDER);
         db.execSQL(ValueTransactionTable.CREATE_INDEX_TOKEN_RECEIVER);
-        db.execSQL(AddressTokenValueTable.CREATE_INDEX_TOKEN_ID);
+
     }
 
     public static void dropTables(SQLiteDatabase db) {
@@ -74,8 +76,8 @@ public class BasicSQLContracts {
                         _ID + INTEGER_PRIMARY_KEY + NOT_NULL + COMMA_SEP +
                         COLUMN_NAME_TOKEN_ID + INTEGER + NOT_NULL + COMMA_SEP +
                         COLUMN_NAME_VALUE + INTEGER + NOT_NULL + COMMA_SEP +
-                        COLUMN_NAME_ADDRESS_CREATION_TIME + TEXT_TYPE + DEFAULT_CURRENT_TIME  +
-                        "FOREIGN KEY(" + COLUMN_NAME_TOKEN_ID + ") REFERENCES "
+                        COLUMN_NAME_ADDRESS_CREATION_TIME + TEXT_TYPE + DEFAULT_CURRENT_TIME  + COMMA_SEP+
+                        " FOREIGN KEY( " + COLUMN_NAME_TOKEN_ID + ") REFERENCES "
                         + BasicTokenTable.TABLE_NAME + "(" + BasicTokenTable._ID + ")" +
                         " );";
 
@@ -118,11 +120,11 @@ public class BasicSQLContracts {
                         COLUMN_NAME_ADDRESS_SENDER + INTEGER + NOT_NULL + COMMA_SEP +
                         COLUMN_NAME_ADDRESS_RECEIVER + INTEGER + NOT_NULL + COMMA_SEP +
                         COLUMN_NAME_VALUE + INTEGER + NOT_NULL + COMMA_SEP +
-                        COLUMN_NAME_TRANSACTION_TIME + TEXT_TYPE + DEFAULT_CURRENT_TIME  +
+                        COLUMN_NAME_TRANSACTION_TIME + TEXT_TYPE + DEFAULT_CURRENT_TIME  + COMMA_SEP +
                         "FOREIGN KEY(" + COLUMN_NAME_TOKEN_ID + ") REFERENCES "
-                        + BasicTokenTable.TABLE_NAME + "(" + BasicTokenTable._ID + ")" +
+                        + BasicTokenTable.TABLE_NAME + "(" + BasicTokenTable._ID + ")" + COMMA_SEP+
                         "FOREIGN KEY(" + COLUMN_NAME_ADDRESS_SENDER + ") REFERENCES "
-                        + AddressTokenValueTable.TABLE_NAME + "(" + AddressTokenValueTable._ID + ")" +
+                        + AddressTokenValueTable.TABLE_NAME + "(" + AddressTokenValueTable._ID + ")" + COMMA_SEP +
                         "FOREIGN KEY(" + COLUMN_NAME_ADDRESS_RECEIVER + ") REFERENCES "
                         + AddressTokenValueTable.TABLE_NAME + "(" + AddressTokenValueTable._ID + ")" +
                         " );";
