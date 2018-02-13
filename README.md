@@ -1,7 +1,7 @@
 # GenesisApp
 
 Mobile Application, which allows the user to create, deploy, utilize and obtain tokens.
-It uses the Genesis Library. If you are interested in the library, please contact: bmark@ethz.ch.
+It uses the Genesis Library. If you are interested in the library, check out: www.github.com/FuturICT2/Genesis. In case of questions,  please contact: bmark@ethz.ch.
 
 # Installation
 * clone the repository to your pc
@@ -32,3 +32,5 @@ In future, the user will be able to select a token in this view. This token will
 
 ## Projects
 In future, the user will be able to trade his tokens in this view. Moreover, projects can be listed, on which the user can spend his or her tokens (crowdsourcing etc.) 
+
+# Software Architecture
