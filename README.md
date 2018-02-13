@@ -28,9 +28,10 @@ The creator view allows the user to create a new token with different properties
 In future all different types of tokens will be displayed and the balance of the user will be shown. Currently, it only lists the tokens existing in the local SQLite datase
 
 ## Token Obtainer
-In future, the user will be able to select a token in this view. This token will then dipslay an action (task), which the user has to perform. If the action is accepted as happened, the user will be rewarded with tokens
+In future, the user will be able to select a token in this view. This token will then dipslay an action (task), which the user has to perform. If the action is accepted as true, the user will be rewarded with tokens.
 
 ## Projects
-In future, the user will be able to trade his tokens in this view. Moreover, projects can be listed, on which the user can spend his or her tokens (crowdsourcing etc.) 
+In future, the user will be able to trade his or her
+tokens in this view. Moreover, projects can be listed, on which the user can spend his or her tokens (crowdsourcing etc.) 
 
 # Software Architecture
