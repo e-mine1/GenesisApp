@@ -5,6 +5,8 @@ import android.provider.BaseColumns;
 import android.renderscript.Sampler;
 
 /**
+ * Holds SQL statements for creating, accessing and destroying tables in the SQLlite database.
+ * Static class
  * Created bhy mcb on 11.02.18.
  */
 

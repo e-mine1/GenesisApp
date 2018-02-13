@@ -26,7 +26,7 @@ import Features.properties.basic.SymbolProperty;
 import Repository.IRepository;
 
 /**
- * Fragment holding the logic to create a new Token
+ * Fragment holding the logic for creating a new Token
  */
 public class CreatorFragment extends Fragment implements StateCallback.StateListener{
 
@@ -66,20 +66,13 @@ public class CreatorFragment extends Fragment implements StateCallback.StateList
         Initialise Recyclerview
          */
         recyclerView =  view.findViewById(R.id.creator_fragment_recyclerview);
-       // recyclerView.setHasFixedSize(true);
-
-
-
-
+       // recyclerView.setHasFixedSize(true); // for speedup
         this.recAdapter = new CreatorRecAdapter(this.repository,createNewBasicProperties(),
-                new ArrayList<IFeature>());
-
+                new ArrayList<IFeature>()); // adapter creating the views dipslayed in recyclerview
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-
         recyclerView.setAdapter(this.recAdapter);
-
 
         /*
             Initialise Save Token Button

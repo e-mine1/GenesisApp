@@ -22,7 +22,7 @@ public interface SQLiteRepo {
     void open() throws SQLException;
 
     /**
-     * Close database
+     * Close databaseb
      */
     void close();
 

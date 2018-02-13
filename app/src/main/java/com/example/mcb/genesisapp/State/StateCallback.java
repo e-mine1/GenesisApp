@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import Repository.IRepository;
 
 /**
+ * StateActivity has to implement this interface
  * Created by mcb on 17.08.15.
  */
 public interface StateCallback {
@@ -73,40 +74,96 @@ public interface StateCallback {
      */
     IRepository getRepository();
 
+    /**
+     * Change the layer in the app. i.e. back to Baselayer (FBaselList)
+     */
     void goToPreviousLayer();
 
+    /**
+     * Register state Listener
+     * @param newListener
+     */
     public void registerStateListener(StateActivity.StateListener newListener);
 
+    /**
+     * Unregister StateListener
+     * @param oldListener
+     */
     public void unRegisterStateListener(StateActivity.StateListener oldListener);
 
     void displayView(int position, boolean addToBackstack, Bundle... extra);
 
+    /**
+     * Item in search bar is clicked
+     */
     void searchItemClicked();
 
 
-
-
-     Context getContext();
-
-     ContentResolver getContentResolver();
-
     void dataBaseModified();
 
-    void closeKeyBoard();
 
+
+    /*
+    Utility functions
+     */
+
+    /**
+     * Open Keyboard in phone
+     */
     void openKeyBoard();
 
+    /**
+     * Close Keyboard
+     */
+    void closeKeyBoard();
+
+    /**
+     * Open keyborad for the provided view
+     * @param view
+     */
     void openKeyBoard(View view);
 
+    /**
+     * Open the Url in a Webbrowser
+     * @param url
+     */
     void openWebLinkInBrowser(String url);
 
+    /**
+     * Call the provided nummber
+     * @param number
+     */
     void call(String number);
 
+    /**
+     * Write sms view on phone with provided number as the receiver
+     * @param number
+     */
     void text(String number);
 
+    /**
+     * Open emailclient with the provided emailaddress as receiver of a new message
+     * @param email
+     */
     void email(String email);
 
+    /**
+     * Get the WindowManger of Android
+     * @return
+     */
     WindowManager getWindowManager();
+
+    /**
+     * Get context of the Android Application
+     * @return
+     */
+    Context getContext();
+
+    /**
+     * Get the contentResolver
+     * @return
+     */
+    ContentResolver getContentResolver();
 
 
 
