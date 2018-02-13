@@ -5,7 +5,7 @@ It uses the Genesis Library. If you are interested in the library, check out: ww
 
 # Installation
 * clone the repository to your pc
-* install adroid studio onto your pc
+* install adroid studio on your pc
 * open the project with android studio
 * Connect a phone through usb to your pc or start an emulator
 * Run the project, it will be deployed to your phone or emulator
