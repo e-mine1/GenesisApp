@@ -1,0 +1,9 @@
+gradle.xml
+.idea
+build/android-profile
+app.iml
+*.iml
+local.properties
+*.bin
+.gradle/buildOutputCleanup
+.gradle/4.1
