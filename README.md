@@ -37,14 +37,20 @@ In Challenge 2, you can use this view to test your implementation and to integra
 ## Projects
 In future, the user will be able to trade his or her
 tokens in this view. Moreover, projects can be listed, on which the user can spend his or her tokens (crowdsourcing etc.)
-
+ 
 # First Run
 * after starting the app, you will see your empty wallet
 * swipe left to the Creator
 * For the moment, you can specify in this view the (basic) properties of the token you want to create. Make sure to save each input.
 * After saving the Token ("save Token"-button), it will be shown in the wallet overview. Just swipe back (right) to the wallet view.
 
-![hallo](https://github.com/FuturICT2/GenesisApp/blob/master/screenCreator.png){:height="36px" width="36px"}
+<p align="center">
+  <img src="./screenCreator.png" width="350"/>
+  <img src="your_relative_path_here_number_2_large_name" width="350"/>
+</p>
+
+![hallo](./screenCreator.png "Token Creator View")
+
 
 
 # Software Architecture
