@@ -44,6 +44,6 @@ tokens in this view. Moreover, projects can be listed, on which the user can spe
 * For the moment, you can specify in this view the (basic) properties of the token you want to create. Make sure to save each input.
 * After saving the Token ("save Token"-button), it will be shown in the wallet overview. Just swipe back (right) to the wallet view.
 
-![hallo](https://github.com/FuturICT2/Genesis/blob/master/screenCreator.png)
+![hallo](https://github.com/FuturICT2/GenesisApp/blob/master/screenCreator.png)
 
 # Software Architecture
