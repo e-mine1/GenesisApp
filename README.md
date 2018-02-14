@@ -60,11 +60,24 @@ We often got asked, how to differentiate between the two challenges. In the next
 
 * Token obtainer: extend the Operation interface and implement actions and proofs to account for your problem, which you want to solve through incentivizing a specific behavior/ action. This challenge is more about utilizing IoT and oracles to validate if an action has actually happened. For this challenge you can pretend, that the android application is storing everythin to a DLT (i.e. Ethereum) (use it as a black box). It is a IoT/ Oracle intense challenge.
 
-Of course, both parts can be combined and this would be the ultimate killer applciation ;)g
+Of course, both parts can be combined and this would be the ultimate killer applciation ;)
 
 ## Challenge 1
 
+For this challenge, you can use the android application as it is and try to replace the SQLite database with a DLT (i.e. Ethereum). Some basic properties can already be defined inside the app. Hence, you can start with bringing these properties to the blockchain and afterwards think about more complex properties etc. 
+
+For this, you need to implement the "IRepository" interface, which will be repsonsible for writing and retrieving information from the DLT (i.e. Ethereum). 
+
 ## Challenge 2
+In this challenge, you will impelement a own custom operation, which can be performed with a token. 
+For this you need to implement the Operation interface, create your own action(s), which this operation support, and the proof for the operations. 
+
+For the start, you can use the SQLite implementation of the IRepository interface and assume, that your operations etc. are stored on the DLT (i.e. Ethereum). 
+In practice, you will need to add some functions/ tables to the SQLite database. Look at the example code for hints how you can do this (in case of questions, just ask us). 
+
+In the end, you will need to add your operation as a feature to the "Token Creator". 
+Afterwards you will be able to test your token on the phone :)
+
 
 
 # Software Architecture
