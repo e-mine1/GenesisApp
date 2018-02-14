@@ -5,7 +5,7 @@ It uses the Genesis Library. If you are interested in the library, check out: ww
 
 # Installation
 * clone the repository to your pc
-* install adroid studio on our pc
+* install adroid studio on our pc: https://developer.android.com/studio/index.html
 * open the project with android studio
 * Connect a phone through usb to your pc or start an emulator
 * Run the project, it will be deployed to your phone or emulator
@@ -46,11 +46,25 @@ tokens in this view. Moreover, projects can be listed, on which the user can spe
 
 <p align="center">
   <img src="./screenCreator.png" width="350"/>
-  <img src="your_relative_path_here_number_2_large_name" width="350"/>
+  <img src="./screenWallet.png" width="350"/>
 </p>
 
-![hallo](./screenCreator.png "Token Creator View")
 
+# How to utilize the App to implement your own Functionalities (BIOTS Challenges)
+
+In the following, we briefly explain, how the Genesis AndroidApp and the Genesis library can be used to boost your development process. 
+
+We often got asked, how to differentiate between the two challenges. In the next section we will explain it in detail, but briefly:  
+
+* Token creator: Its basically replacing the SQLite database in the android app with a distributed ledger technology (i.e. Ethereum) - it is a "blockchain" intense challenge
+
+* Token obtainer: extend the Operation interface and implement actions and proofs to account for your problem, which you want to solve through incentivizing a specific behavior/ action. This challenge is more about utilizing IoT and oracles to validate if an action has actually happened. For this challenge you can pretend, that the android application is storing everythin to a DLT (i.e. Ethereum) (use it as a black box). It is a IoT/ Oracle intense challenge.
+
+Of course, both parts can be combined and this would be the ultimate killer applciation ;)g
+
+## Challenge 1
+
+## Challenge 2
 
 
 # Software Architecture
