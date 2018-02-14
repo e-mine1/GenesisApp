@@ -68,6 +68,8 @@ For this challenge, you can use the android application as it is and try to repl
 
 For this, you need to implement the "IRepository" interface, which will be repsonsible for writing and retrieving information from the DLT (i.e. Ethereum). 
 
+There is currently no library available, which allows developers to easily create tokens in java and to deploy them to Ethereum. Even a simple library will be a big contribution to the community :)
+
 ## Challenge 2
 In this challenge, you will impelement a own custom operation, which can be performed with a token. 
 For this you need to implement the Operation interface, create your own action(s), which this operation support, and the proof for the operations. 
