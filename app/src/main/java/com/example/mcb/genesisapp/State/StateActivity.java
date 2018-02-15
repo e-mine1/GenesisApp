@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +25,7 @@ import android.widget.ViewSwitcher;
 import com.example.mcb.genesisapp.Layers.base.FBaseList;
 import com.example.mcb.genesisapp.R;
 import com.example.mcb.genesisapp.Repository.SQLite.BasicSQLiteRepo;
-
+import com.example.mcb.genesisapp.Repository.emineback.EMineBackend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -249,6 +248,9 @@ public class StateActivity extends AppCompatActivity implements StateCallback{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        EMineBackend e = new EMineBackend();
+        e.main(null);
 
         /*requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
