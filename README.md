@@ -1,5 +1,6 @@
 _See project description here: https://github.com/e-mine1/e-mine-web_
 
+This repository contains a fork of the GenesisApp. It is extended with the E-Mine API and demonstrates the API use.
 
 <img src="emine-android-app-views.jpg" width="700">
 
