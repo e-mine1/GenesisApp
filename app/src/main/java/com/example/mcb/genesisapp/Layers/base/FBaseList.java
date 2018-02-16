@@ -11,16 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-
 import com.eftimoff.viewpagertransformers.BaseTransformer;
 import com.eftimoff.viewpagertransformers.DepthPageTransformer;
 import com.example.mcb.genesisapp.R;
 import com.example.mcb.genesisapp.State.StateActivity;
 import com.example.mcb.genesisapp.State.StateCallback;
-import com.example.mcb.genesisapp.Views.creator.CreatorFragment;
 import com.example.mcb.genesisapp.Views.FProjects;
-import com.example.mcb.genesisapp.Views.wallet.FWallet;
 import com.example.mcb.genesisapp.Views.ObtainerFragment;
+import com.example.mcb.genesisapp.Views.creator.CreatorFragment;
+import com.example.mcb.genesisapp.Views.wallet.FWallet;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.util.ArrayList;
@@ -62,6 +61,7 @@ public class FBaseList extends Fragment implements StateActivity.StateListener {
         List<Fragment> fragmentList = new ArrayList<>();
 
         fragmentList.add(CreatorFragment.newInstance());
+//        fragmentList.add(Test.newInstance());
         fragmentList.add(FWallet.newInstance());
         fragmentList.add(ObtainerFragment.newInstance());
         fragmentList.add(FProjects.newInstance());
@@ -82,7 +82,7 @@ public class FBaseList extends Fragment implements StateActivity.StateListener {
         }
 
 
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
 
 
 

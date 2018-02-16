@@ -1,17 +1,13 @@
 package com.example.mcb.genesisapp.Repository.emineback
 
-import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.httpPost
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.MediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
+import okhttp3.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
 import org.json.JSONObject
+import java.io.IOException
 
 
 /**
@@ -26,20 +22,30 @@ class EMineBackend : AnkoLogger {
     init {
     }
 
+    fun getRequestInformationUrl(key: String): String {
+        return "${host}/api/requests/${key}"
+    }
+
     fun main(args: Array<String>?) {
         doAsync {
             println("creating request !!!")
             var b = EMineBackend()
             var p = CreateTokenRequest("tokeName", "symbol", 100,
-                    1, 1, TokenType.BASIC_TOKEN)
+                    1, 1, "MyStandardToken")
             b.createTokenObservable(p).subscribe({ response ->
+                fetchRequestStatus(response.key).subscribe(
+                        { r ->
+                            println(r)
+                        }, { e -> }
+                )
+                println("on done")
                 print(response)
             }, { error ->
-                print(error.message)
+                println("on error")
+                println(error.message)
             }
             )
         }
-
     }
 
 
@@ -51,39 +57,89 @@ class EMineBackend : AnkoLogger {
                     .put("decimals", payload.decimals)
                     .put("maxSupply", payload.maxSupply)
                     .put("genesisSupply", payload.genesisSupply)
-                    .put("tokenType", payload.tokenType.name)
+                    .put("tokenType", payload.tokenType)
+                    .put("symbol", payload.tokenSymbol)
 
+            println(json.toString())
+            client.newCall(Request.Builder()
+                    .url("${host}/api/tokens/create")
+                    .post(RequestBody.create(json_type, json.toString()))
+                    .build()).enqueue(object : Callback {
+                override fun onResponse(call: Call?, response: Response?) {
+                    if (response!!.code() == 200) {
+                        sink.onNext(createTokenResponse(JSONObject(response!!.body()!!.string())))
+                        sink.onComplete()
+                    } else {
+                        val msg = response!!.body()!!.string()
+                        if (msg.contains("error")) {
+                            sink.onError(Exception(JSONObject(msg).getString("error")))
 
-            RequestBody.create(json_type, json.toString())
-            val request = Request.Builder()
-                    .url(url)
-                    .post(body)
-                    .addHeader("Authorization", "header value") //Notice this request has header if you don't need to send a header just erase this part
-                    .build()
-
-
-                    "${host}/api/tokens/create".httpPost().body(json.toString())
-                    .responseJson { request, response, result ->
-                        val (data, error) = result
-                        println(data)
-                        println(error)
-                        if (response.statusCode != 200) {
-                            val msg = result.get().obj()["error"].toString()
-//                            sink.onError()
+                        } else {
+                            sink.onError(Exception(msg))
                         }
-
-                        sink.onNext(createTokenResponse(result.get().obj()))
                         sink.onComplete()
                     }
+                }
+
+                override fun onFailure(call: Call?, e: IOException?) {
+                    val msg = call!!.request()?.body() ?: e!!.message as String
+                    var e = Exception()
+                    sink.onError(e)
+                    sink.onComplete()
+                }
+            })
+
+//            todo: http fuel throws exception on http != 400, not caught, how to catch error?
+//
+//            "${host}/api/tokens/create".httpPost().body(json.toString())
+//                    .responseJson { request, response, result ->
+//                        val (data, error) = result
+//                        if (response.statusCode != 200) {
+//                            val msg = result.get().obj()["error"].toString()
+////                            sink.onError(Exce)
+//                        } else {
+//                            sink.onNext(createTokenResponse(result.get().obj()))
+//                            sink.onComplete()
+//                        }
+//                    }
         }.observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun fetchRequestStatus(requestKey: String) {
+    fun fetchRequestStatus(requestKey: String): io.reactivex.Observable<CreateTokenResponse> {
+        return Observable.create<CreateTokenResponse> { sink ->
+            client.newCall(Request.Builder()
+                    .url("${host}/api/requests/${requestKey}")
+                    .get()
+                    .build()).enqueue(object : Callback {
+                override fun onResponse(call: Call?, response: Response?) {
+                    if (response!!.code() == 200) {
+                        sink.onNext(createTokenResponse(JSONObject(response!!.body()!!.string())))
+                        sink.onComplete()
+                    } else {
+                        val msg = response!!.body()!!.string()
+                        if (msg.contains("error")) {
+                            sink.onError(Exception(JSONObject(msg).getString("error")))
 
+                        } else {
+                            sink.onError(Exception(msg))
+                        }
+                        sink.onComplete()
+                    }
+                }
+
+                override fun onFailure(call: Call?, e: IOException?) {
+                    val msg = call!!.request()?.body() ?: e!!.message as String
+                    var e = Exception()
+                    sink.onError(e)
+                    sink.onComplete()
+                }
+            })
+        }
     }
 
     fun createTokenResponse(json: JSONObject): CreateTokenResponse {
+        println(json.toString())
         return CreateTokenResponse(
                 created = json.getString("created"),
                 key = json.getString("key"),
@@ -94,8 +150,8 @@ class EMineBackend : AnkoLogger {
                 version = json.getInt("version"))
     }
 
-    enum class TokenType(name: String) {
-        BASIC_TOKEN("MyBasicToken")
+    enum class TokenType(val tokenName: String) {
+        BASIC_TOKEN("MyStandardToken")
     }
 
     data class CreateTokenRequest(
@@ -104,7 +160,7 @@ class EMineBackend : AnkoLogger {
             var maxSupply: Int,
             var decimals: Int,
             var genesisSupply: Int,
-            var tokenType: TokenType
+            var tokenType: String
     )
 
     data class CreateTokenResponse(var status: String,

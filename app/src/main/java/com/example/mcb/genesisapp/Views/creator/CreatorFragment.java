@@ -12,12 +12,16 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.mcb.genesisapp.R;
+import com.example.mcb.genesisapp.Repository.emineback.EMineBackend;
 import com.example.mcb.genesisapp.State.StateCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Features.IFeature;
+import Features.IOperation;
+import Features.IUnderlying;
+import Features.properties.IProperty;
 import Features.properties.basic.DecimalsProperty;
 import Features.properties.basic.GeneralSupplyProperty;
 import Features.properties.basic.GenesisSupplyProperty;
@@ -28,13 +32,13 @@ import Repository.IRepository;
 /**
  * Fragment holding the logic for creating a new Token
  */
-public class CreatorFragment extends Fragment implements StateCallback.StateListener{
-
+public class CreatorFragment extends Fragment implements StateCallback.StateListener {
 
     IRepository repository;
     protected CreatorRecAdapter recAdapter;
     StateCallback stateActivity;
     protected RecyclerView recyclerView;
+    EMineBackend emine = new EMineBackend();
 
     protected Button saveToken;
 
@@ -45,7 +49,7 @@ public class CreatorFragment extends Fragment implements StateCallback.StateList
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-
+     *
      * @return A new instance of fragment CreatorFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -53,8 +57,6 @@ public class CreatorFragment extends Fragment implements StateCallback.StateList
         CreatorFragment fragment = new CreatorFragment();
         return fragment;
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,9 +67,9 @@ public class CreatorFragment extends Fragment implements StateCallback.StateList
         /*
         Initialise Recyclerview
          */
-        recyclerView =  view.findViewById(R.id.creator_fragment_recyclerview);
-       // recyclerView.setHasFixedSize(true); // for speedup
-        this.recAdapter = new CreatorRecAdapter(this.repository,createNewBasicProperties(),
+        recyclerView = view.findViewById(R.id.creator_fragment_recyclerview);
+        // recyclerView.setHasFixedSize(true); // for speedup
+        this.recAdapter = new CreatorRecAdapter(this.repository, createNewBasicProperties(),
                 new ArrayList<IFeature>()); // adapter creating the views dipslayed in recyclerview
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -84,29 +86,76 @@ public class CreatorFragment extends Fragment implements StateCallback.StateList
                 List<IFeature> features = recAdapter.getChosenFeatures();
 
                 boolean allSpecified = true;
-                for(IFeature feature:features){
+                for (IFeature feature : features) {
                     allSpecified = allSpecified && feature.isSet();
                 }
-                if(allSpecified){
-                    repository.crateNewToken(features);
-                    Toast.makeText(getContext(),"New Token Created",Toast.LENGTH_LONG).show();
-                    recAdapter.updateDataList(createNewBasicProperties());
-                    stateActivity.dataBaseModified();
-                }else{
-                    Toast.makeText(getContext(),"Not all Features are specified, \n please save them first" +
-                            "",Toast.LENGTH_LONG).show();
+                if (allSpecified) {
+
+                    List<IUnderlying> underlyings = new ArrayList<>();
+                    List<IProperty> properties = new ArrayList<>();
+                    List<IOperation> operations = new ArrayList<>();
+                    for (IFeature feature : features) {
+                        switch (feature.getFeatureType()) {
+                            case UNDERLYING:
+                                underlyings.add((IUnderlying) feature);
+                                break;
+                            case PROPERTY:
+                                properties.add((IProperty) feature);
+                                break;
+                            case OPERATION:
+                                operations.add((IOperation) feature);
+                                break;
+                        }
+                    }
+//                    BasicToken t = new BasicToken(operations, properties, underlyings, repository);
+//                    String tokenName = t.getName();
+//                    String symbol = t.getSymbol();
+//                    int decimals = t.getDecimals();
+//                    String tokenType = recAdapter.tokenType;
+//                    int totalSupply = t.getTotalSupply();
+//                    int initSupply = t.preMinedAmount();
+//
+//                    emine.createTokenObservable(new EMineBackend.
+//                            CreateTokenRequest(tokenName, symbol, totalSupply, initSupply, decimals, tokenType))
+//                            .subscribe(new Consumer<EMineBackend.CreateTokenResponse>() {
+//                                @Override
+//                                public void accept(EMineBackend.CreateTokenResponse createTokenResponse) throws Exception {
+//                                    System.out.println(createTokenResponse.getKey());
+//                                    Toast.makeText(getContext(), "Token issued. "
+//                                            + createTokenResponse.getKey(), Toast.LENGTH_LONG).show();
+//                                }
+//                            });
+
+//                    repository.crateNewToken(features);
+//                    Toast.makeText(getContext(),"New Token Created",Toast.LENGTH_LONG).show();
+//                    recAdapter.updateDataList(createNewBasicProperties());
+//                    stateActivity.dataBaseModified();
+
+//                    for(IFeature feature: features){
+//                        switch (feature.getFeatureType()){
+//                            case UNDERLYING:
+//                                break;
+//                            case PROPERTY:
+//                                ((IProperty) feature)
+//                                break;
+//                            case OPERATION:
+//                                break;
+//                        }
+//                    }
+
+                } else {
+                    Toast.makeText(getContext(), "Not all Features are specified, \n please save them first" +
+                            "", Toast.LENGTH_LONG).show();
                 }
 
             }
         });
 
-
         return view;
 
     }
 
-
-    protected List<IFeature> createNewBasicProperties(){
+    protected List<IFeature> createNewBasicProperties() {
         List<IFeature> basicProperties = new ArrayList<>();
 
         basicProperties.add(new NameProperty());

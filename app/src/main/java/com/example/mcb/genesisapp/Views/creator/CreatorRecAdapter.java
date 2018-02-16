@@ -4,11 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mcb.genesisapp.R;
 
@@ -17,9 +17,7 @@ import java.util.List;
 
 import Features.IFeature;
 import Features.properties.AbstractProperty;
-import Features.properties.IProperty;
 import Features.properties.basic.ABasicProperty;
-import Features.properties.basic.NameProperty;
 import Repository.IRepository;
 import Token.IToken;
 
@@ -49,6 +47,8 @@ public class CreatorRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     IRepository repository;
 
     public List<CreatorAdapterListener> listeners;
+
+    public String tokenType;
 
     public interface CreatorAdapterListener{
 
@@ -125,7 +125,7 @@ public class CreatorRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if(viewType==ADD_BUTTON){
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.creator_adapter_add_button,
                     parent, false);
-            return new PlusButtonViewHolder(v);
+            return new TokenTypeSpinnerViewHolder(v);
 
         }
 
@@ -165,19 +165,35 @@ public class CreatorRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
 
-    public class PlusButtonViewHolder extends RecyclerView.ViewHolder{
+    public class TokenTypeSpinnerViewHolder extends RecyclerView.ViewHolder{
 
-        ImageButton button;
-        public PlusButtonViewHolder(final View itemView) {
+        Spinner spinner;
+        public TokenTypeSpinnerViewHolder(final View itemView) {
             super(itemView);
-            this.button = itemView.findViewById(R.id.creator_add_image_button);
-            button.setOnClickListener(new View.OnClickListener() {
+            this.spinner = itemView.findViewById(R.id.contractType_spinner);
+            tokenType = spinner.getSelectedItem().toString();
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
                 @Override
-                public void onClick(View view) {
-                    Toast.makeText(itemView.getContext(),"Coming soon: add other features",
-                            Toast.LENGTH_LONG).show();
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    System.out.println(spinner.getSelectedItem().toString());
+                    tokenType = spinner.getSelectedItem().toString();
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
                 }
             });
+
+//            spinner.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Toast.makeText(itemView.getContext(),"Coming soon: add other features",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//            });
 
         }
 
@@ -296,7 +312,11 @@ public class CreatorRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public List<IFeature> getChosenFeatures() {
-        return new ArrayList<>(chosenFeatures);
+        List<IFeature> f = new ArrayList<>(chosenFeatures);
+//        TextProperty
+//        (AbstractProperty) ).setProperty(input.getText().toString());
+//        f.add(new Stri
+        return f;
     }
 
     Object nullHandling(Object o){
