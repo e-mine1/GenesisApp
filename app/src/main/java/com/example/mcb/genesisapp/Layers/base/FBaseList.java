@@ -16,10 +16,7 @@ import com.eftimoff.viewpagertransformers.DepthPageTransformer;
 import com.example.mcb.genesisapp.R;
 import com.example.mcb.genesisapp.State.StateActivity;
 import com.example.mcb.genesisapp.State.StateCallback;
-import com.example.mcb.genesisapp.Views.FProjects;
-import com.example.mcb.genesisapp.Views.ObtainerFragment;
 import com.example.mcb.genesisapp.Views.creator.CreatorFragment;
-import com.example.mcb.genesisapp.Views.wallet.FWallet;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.util.ArrayList;
@@ -62,9 +59,9 @@ public class FBaseList extends Fragment implements StateActivity.StateListener {
 
         fragmentList.add(CreatorFragment.newInstance());
 //        fragmentList.add(Test.newInstance());
-        fragmentList.add(FWallet.newInstance());
-        fragmentList.add(ObtainerFragment.newInstance());
-        fragmentList.add(FProjects.newInstance());
+//        fragmentList.add(FWallet.newInstance());
+//        fragmentList.add(ObtainerFragment.newInstance());
+//        fragmentList.add(FProjects.newInstance());
 //        fragmentList.add(ContactListFragment.newInstance());
 //        fragmentList.add(WorkViewPagerFragmentNewNew.newInstance(false));
 

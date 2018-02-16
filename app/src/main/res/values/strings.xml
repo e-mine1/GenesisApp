@@ -14,7 +14,7 @@
         <item>MyERC827Token</item>
         <item>MyMintableToken</item>
         <item>MyPausableToken</item>
-        <item>MyStandardToke</item>
+        <item>MyStandardToken</item>
     </string-array>
 
 </resources>
