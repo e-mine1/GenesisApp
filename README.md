@@ -1,3 +1,6 @@
+_See project description here: https://github.com/e-mine1/e-mine-web_
+
+
 # GenesisApp
 
 Mobile Application, which allows the user to create, deploy, utilize and obtain tokens.
